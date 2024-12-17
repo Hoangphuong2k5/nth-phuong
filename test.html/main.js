@@ -63,19 +63,19 @@ const svgStar=
      
       
       const noteStar = document.createElement('span');
-noteStar.classList.add('task-star');
-noteStar.innerHTML = svgStar; 
-let isDefault= true;
+      noteStar.classList.add('task-star');
+     noteStar.innerHTML = svgStar; 
+     let isDefault= true;
 
-noteStar.addEventListener('click', () => {
-  console.log("Note Star Clicked!"); 
-  if (isDefault) {
-    noteStar.innerHTML = svgStar; 
-  } else {
-    noteStar.innerHTML = Svgstar; 
-  }
-  isDefault =!isDefault;
-});
+     noteStar.addEventListener('click', () => {
+      console.log("Note Star Clicked!"); 
+      if (isDefault) {
+     noteStar.innerHTML = svgStar; 
+     } else {
+     noteStar.innerHTML = Svgstar; 
+      }
+     isDefault =!isDefault;
+    });
      
        
       
@@ -92,7 +92,8 @@ noteStar.addEventListener('click', () => {
       selectedLevel = ''; 
       levelButtons.forEach(b => b.classList.remove('active')); 
     }
-  });
+});
+
   
 
 toggleLevel.addEventListener("change", () => {
@@ -198,6 +199,7 @@ levelButtons.forEach(button => {
     levelButtons.forEach(b => b.classList.remove('active')); // Hủy bỏ lớp active của tất cả các nút
     button.classList.add('active'); // Thêm lớp active cho nút được chọn
     selectedLevel = button.classList[1]; // Lấy class của nút để làm cấp độ (ví dụ: DE, BT, KHO)
+    filterNotesByLevel(selectedLevel); // Lọc ghi chú theo cấp độ được chọn
   });
 });
 
@@ -212,17 +214,6 @@ function filterNotesByLevel(level) {
     }
   });
 }
-
-// Xử lý lọc ghi chú khi click vào menu cấp độ
-document.querySelectorAll(".level-options button").forEach(button => {
-  button.addEventListener('click', () => {
-    const selectedClass = button.classList[1]; // Lấy class cấp độ từ button
-    filterNotesByLevel(selectedClass); // Lọc ghi chú theo class
-
-    // Cập nhật UI cho nút cấp độ
-    document.querySelector(".level-btn").querySelector("svg").nextSibling.textContent = ` ${button.textContent} `;
-  });
-});
 
 // Ngăn menu ẩn khi click ngoài
 function toggleMenu(checkbox, menu, container) {
