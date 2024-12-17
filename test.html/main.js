@@ -12,6 +12,10 @@ const levelBtn = document.querySelector(".level-btn");
 const toggletick = document.querySelector("#toggle-tick"); 
 const tickOptions = document.querySelector(".tick-options"); 
 const tickBtn = document.querySelector(".tick-btn"); 
+const toggleCustoms = document.querySelector("#toggle-customs"); 
+const customsOptions = document.querySelector(".customs-options"); 
+const customsBtn = document.querySelector(".customs-btn"); 
+
 
 const Svgstar=
 `
@@ -194,6 +198,39 @@ document.querySelectorAll(".customs-options button").forEach((button) => {
     customsOptions.style.display = "none";
   });
 });
+
+
+toggletick.addEventListener("change", () => {
+  if (toggletick.checked) {
+    tickOptions.style.display = "block"; 
+} else{
+    tickOptions.style.display = "none"; 
+  }
+});
+
+
+document.addEventListener("click", (event) => {
+  const tickContainer = document.querySelector(".tick"); 
+  if (!tickContainer.contains(event.target)) { 
+    toggletick.checked = false; 
+    tickOptions.style.display = "none";
+  }
+});
+
+
+document.querySelectorAll(".tick-options button").forEach((button) => {
+  button.addEventListener("click", () => {
+
+    const selectedText = button.textContent.trim();
+
+    tickBtn.querySelector("svg").nextSibling.textContent = ` ${selectedText} `;
+
+   
+    toggletick.checked = false;
+    tickOptions.style.display = "none";
+  });
+});
+
 levelButtons.forEach(button => {
   button.addEventListener('click', () => {
     levelButtons.forEach(b => b.classList.remove('active')); // Hủy bỏ lớp active của tất cả các nút
