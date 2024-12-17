@@ -13,11 +13,6 @@ const toggletick = document.querySelector("#toggle-tick");
 const tickOptions = document.querySelector(".tick-options"); 
 const tickBtn = document.querySelector(".tick-btn"); 
 
-const toggleCustoms = document.querySelector("#toggle-customs"); 
-const customsOptions = document.querySelector(".customs-options"); 
-const customsBtn = document.querySelector(".customs-btn"); 
-
-
 const Svgstar=
 `
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -198,46 +193,47 @@ document.querySelectorAll(".customs-options button").forEach((button) => {
     customsOptions.style.display = "none";
   });
 });
-
-function sortNotesByLevel() {
-  const notes = Array.from(noteList.children);
-  const levelOrder = ['DE', 'BT', 'KHO'];
-
-  notes.sort((a, b) => {
-    const levelA = a.classList.contains('DE') ? 'DE' : a.classList.contains('BT') ? 'BT' : 'KHO';
-    const levelB = b.classList.contains('DE') ? 'DE' : b.classList.contains('BT') ? 'BT' : 'KHO';
-
-    return levelOrder.indexOf(levelA) - levelOrder.indexOf(levelB);
+levelButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    levelButtons.forEach(b => b.classList.remove('active')); // Hủy bỏ lớp active của tất cả các nút
+    button.classList.add('active'); // Thêm lớp active cho nút được chọn
+    selectedLevel = button.classList[1]; // Lấy class của nút để làm cấp độ (ví dụ: DE, BT, KHO)
   });
+});
 
-  notes.forEach(note => noteList.appendChild(note));
+// Lọc ghi chú theo cấp độ
+function filterNotesByLevel(level) {
+  const notes = noteList.querySelectorAll('.note-item');
+  notes.forEach(note => {
+    if (level === 'ALL' || note.classList.contains(level)) {
+      note.style.display = 'flex'; // Hiển thị ghi chú
+    } else {
+      note.style.display = 'none'; // Ẩn ghi chú
+    }
+  });
 }
 
-document.querySelector('.sort-level').addEventListener('click', () => {
-  sortNotesByLevel();
-});
+// Xử lý lọc ghi chú khi click vào menu cấp độ
+document.querySelectorAll(".level-options button").forEach(button => {
+  button.addEventListener('click', () => {
+    const selectedClass = button.classList[1]; // Lấy class cấp độ từ button
+    filterNotesByLevel(selectedClass); // Lọc ghi chú theo class
 
-toggleLevel.addEventListener("change", () => {
-  if (toggleLevel.checked) {
-    levelOptions.style.display = "block"; 
-  } else {
-    levelOptions.style.display = "none"; 
-  }
-});
-
-document.addEventListener("click", (event) => {
-  const levelContainer = document.querySelector(".level"); 
-  if (!levelContainer.contains(event.target)) { 
-    toggleLevel.checked = false; 
-    levelOptions.style.display = "none"; 
-  }
-});
-
-document.querySelectorAll(".level-options button").forEach((button) => {
-  button.addEventListener("click", () => {
-    const selectedText = button.textContent.trim();
-    levelBtn.querySelector("svg").nextSibling.textContent = ` ${selectedText} `;
-    toggleLevel.checked = false;
-    levelOptions.style.display = "none";
+    // Cập nhật UI cho nút cấp độ
+    document.querySelector(".level-btn").querySelector("svg").nextSibling.textContent = ` ${button.textContent} `;
   });
 });
+
+// Ngăn menu ẩn khi click ngoài
+function toggleMenu(checkbox, menu, container) {
+  checkbox.addEventListener("change", () => {
+    menu.style.display = checkbox.checked ? "block" : "none"; // Hiển thị hoặc ẩn menu
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!container.contains(event.target)) {
+      checkbox.checked = false;
+      menu.style.display = "none"; // Ẩn menu khi click ngoài
+    }
+  });
+}
