@@ -56,9 +56,9 @@ const svgStar=
        checkbox.type = 'checkbox';
        checkbox.addEventListener('change', () => {
       if (checkbox.checked) {
-        noteContent.style.textDecoration = 'line-through'; // Gạch ngang nếu được chọn
+        noteContent.style.textDecoration = 'line-through'; 
       } else {
-        noteContent.style.textDecoration = 'none'; // Bỏ gạch ngang nếu bỏ chọn
+        noteContent.style.textDecoration = 'none'; 
       }
       
     });
@@ -81,17 +81,10 @@ const svgStar=
      isDefault =!isDefault;
     });
      
-       
-      
-      // Thêm nội dung vào ghi chú
       noteItem.appendChild(checkbox);
       noteItem.appendChild(noteContent);
       noteItem.appendChild(noteStar);
-      
-      // Thêm ghi chú vào danh sách
       noteList.appendChild(noteItem);
-      
-      
       noteInput.value = '';
       selectedLevel = ''; 
       levelButtons.forEach(b => b.classList.remove('active')); 
@@ -231,37 +224,25 @@ document.querySelectorAll(".tick-options button").forEach((button) => {
   });
 });
 
-levelButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    levelButtons.forEach(b => b.classList.remove('active')); // Hủy bỏ lớp active của tất cả các nút
-    button.classList.add('active'); // Thêm lớp active cho nút được chọn
-    selectedLevel = button.classList[1]; // Lấy class của nút để làm cấp độ (ví dụ: DE, BT, KHO)
-    filterNotesByLevel(selectedLevel); // Lọc ghi chú theo cấp độ được chọn
-  });
-});
+function filterNotes(level) {
+  const allNotes = document.querySelectorAll('.note-item'); // Lấy tất cả ghi chú
 
-// Lọc ghi chú theo cấp độ
-function filterNotesByLevel(level) {
-  const notes = noteList.querySelectorAll('.note-item');
-  notes.forEach(note => {
-    if (level === 'ALL' || note.classList.contains(level)) {
-      note.style.display = 'flex'; // Hiển thị ghi chú
+  allNotes.forEach(note => {
+    console.log(note.dataset.level); // Kiểm tra giá trị cấp độ ghi chú
+    if (level === 'all' || note.dataset.level === level) {
+      note.style.display = 'flex'; // Hiển thị ghi chú khớp cấp độ
     } else {
-      note.style.display = 'none'; // Ẩn ghi chú
+      note.style.display = 'none'; // Ẩn ghi chú không khớp
     }
   });
 }
 
-// Ngăn menu ẩn khi click ngoài
-function toggleMenu(checkbox, menu, container) {
-  checkbox.addEventListener("change", () => {
-    menu.style.display = checkbox.checked ? "block" : "none"; // Hiển thị hoặc ẩn menu
-  });
+document.querySelector('.easy').addEventListener('click', () => filterNotes('Dễ'));
+document.querySelector('.normal').addEventListener('click', () => filterNotes('Trung bình'));
+document.querySelector('.hard').addEventListener('click', () => filterNotes('Khó'));
+document.querySelector('.all').addEventListener('click', () => filterNotes('all'));
 
-  document.addEventListener("click", (event) => {
-    if (!container.contains(event.target)) {
-      checkbox.checked = false;
-      menu.style.display = "none"; // Ẩn menu khi click ngoài
-    }
-  });
-}
+document.querySelector('.easy').addEventListener('click', () => {
+  console.log('Nút Dễ được nhấn');
+  filterNotes('.');
+});
