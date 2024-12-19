@@ -86,7 +86,7 @@ const svgStar=
       noteItem.appendChild(noteStar);
       noteList.appendChild(noteItem);
       noteInput.value = '';
-      selectedLevel = ''; 
+      
       levelButtons.forEach(b => b.classList.remove('active')); 
     }
 });
