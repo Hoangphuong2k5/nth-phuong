@@ -3,7 +3,6 @@ const noteInput = document.getElementById('noteInput');
   const addNoteButton = document.querySelector('.add-note');
   const noteList = document.getElementById('noteList');
   const levelButtons = document.querySelectorAll('.level-selector button');
-  let selectedLevel = '';
 
 const toggleLevel = document.querySelector("#toggle-level"); 
 const levelOptions = document.querySelector(".level-options"); 
